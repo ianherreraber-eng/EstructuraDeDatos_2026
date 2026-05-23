@@ -1,82 +1,37 @@
 using System;
 
+Console.WriteLine("--- EL DEMONIO DE LA MEMORIA: VALOR VS REFERENCIA ---");
+
+// 1. Tipo por Valor (Value Type - vive en el Stack)
+int numeroInicial = 10;
+Console.WriteLine($"\n[Stack] Número ANTES de la función: {numeroInicial}");
+CambiarValor(numeroInicial);
+Console.WriteLine($"[Stack] Número DESPUÉS de la función: {numeroInicial}"); 
+// ¡Verás que NO cambió, sigue siendo 10!
+
+// 2. Tipo por Referencia (Reference Type - vive en el Heap)
+int[] miArreglo = { 1, 2, 3 };
+Console.WriteLine($"\n[Heap] Primer elemento del arreglo ANTES: {miArreglo[0]}");
+CambiarReferencia(miArreglo);
+Console.WriteLine($"[Heap] Primer elemento del arreglo DESPUÉS: {miArreglo[0]}"); 
+// ¡Verás que SÍ cambió a 100!
+
+
 // ==========================================
-// FLUJO PRINCIPAL DEL PROGRAMA
+// FUNCIONES (Métodos)
 // ==========================================
 
-// 1. Instanciamos el objeto usando nuestra Clase
-Poligono miFigura = new Poligono();
-
-// 2. Ejecutamos la primera función y guardamos el resultado
-miFigura.NumeroLados = SeleccionarPoligono();
-
-if (miFigura.NumeroLados > 0)
+// Intenta cambiar un tipo por valor (int)
+void CambiarValor(int x)
 {
-    // 3. Pasamos nuestro objeto a la función para que se llene con datos validados
-    PedirDatos(miFigura);
-
-    // 4. Calculamos y mostramos el resultado final
-    Console.WriteLine($"\nEl área de tu figura es: {miFigura.CalcularArea()}");
-}
-else
-{
-    Console.WriteLine("\nOpción no válida. Por favor, reinicia el programa.");
-}
-
-
-// ==========================================
-// FUNCIONES INDEPENDIENTES
-// ==========================================
-
-int SeleccionarPoligono()
-{
-    Console.WriteLine("--- CALCULADORA DE POLÍGONOS ---");
-    Console.WriteLine("1. Pentágono (5 lados)");
-    Console.WriteLine("2. Hexágono (6 lados)");
-    Console.Write("Elige una opción: ");
-    
-    string opcion = Console.ReadLine();
-    
-    if (opcion == "1") return 5;
-    if (opcion == "2") return 6;
-    
-    return 0; // Retorna 0 si el usuario teclea algo incorrecto
+    x = 100;
+    Console.WriteLine($"   -> (Dentro de CambiarValor, x es: {x})");
 }
 
-void PedirDatos(Poligono figura)
+// Intenta cambiar un tipo por referencia (arreglo)
+void CambiarReferencia(int[] arr)
 {
-    double lado;
-    // Ciclo que se repite si no es un número decimal válido o si es negativo/cero
-    do {
-        Console.Write("\nIngresa la medida del lado (número positivo): ");
-    } while (!double.TryParse(Console.ReadLine(), out lado) || lado <= 0);
-    
-    figura.MedidaLado = lado;
+    arr[0] = 100;
+    Console.WriteLine($"   -> (Dentro de CambiarReferencia, el arreglo[0] es: {arr[0]})");
 
-    double apotema;
-    do {
-        Console.Write("Ingresa la medida de la apotema (número positivo): ");
-    } while (!double.TryParse(Console.ReadLine(), out apotema) || apotema <= 0);
-    
-    figura.Apotema = apotema;
-}
-
-
-// ==========================================
-// DEFINICIÓN DE CLASES
-// ==========================================
-
-class Poligono 
-{
-    // Atributos de nuestro molde (encapsulamiento)
-    public int NumeroLados { get; set; }
-    public double MedidaLado { get; set; }
-    public double Apotema { get; set; }
-
-    // Función integrada en el objeto
-    public double CalcularArea() 
-    {
-        double perimetro = NumeroLados * MedidaLado;
-        return (perimetro * Apotema) / 2;
-    }
 }
